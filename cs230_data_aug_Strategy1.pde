@@ -1,3 +1,9 @@
+
+##NOTE: This data augmentation strategy was abandoned when we realized:
+  1. It was too slow
+  2. It couldn't handle image reshaping
+  3. We wanted to have everything in python anyway
+
 ArrayList<PImage> images;
 PImage img;
 ArrayList<String> categories;
