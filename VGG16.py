@@ -6,10 +6,10 @@ import torchvision.transforms as transforms
 BATCH_SIZE = 10
 LEARNING_RATE = 0.01
 EPOCH = 50
-N_CLASSES = 25
+N_CLASSES = 10   # We are using dataset of Realist Paintings that has 10 Artists. 
 
 transform = transforms.Compose([
-    transforms.RandomResizedCrop(224),
+    transforms.RandomResizedCrop(224),        #Here size is 224 not 256 -- IMP
     transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
     transforms.Normalize(mean = [ 0.485, 0.456, 0.406 ],
@@ -19,7 +19,7 @@ transform = transforms.Compose([
 trainData = dsets.ImageFolder('../data/imagenet/train', transform)
 testData = dsets.ImageFolder('../data/imagenet/test', transform)
 
-trainLoader = torch.utils.data.DataLoader(dataset=trainData, batch_size=BATCH_SIZE, shuffle=True)
+trainLoader = torch.utils.data.DataLoader(dataset=trainData, batch_size=BATCH_SIZE, shuffle=True)  #DataLoader ???
 testLoader = torch.utils.data.DataLoader(dataset=testData, batch_size=BATCH_SIZE, shuffle=False)
 
 def conv_layer(chann_in, chann_out, k_size, p_size):
@@ -75,8 +75,9 @@ class VGG16(tnn.Module):
 
         return vgg16_features, out
 
-      
+   
 vgg16 = VGG16(n_classes=N_CLASSES)
+#cuda causes this to run on GPU
 vgg16.cuda()
 
 # Loss, Optimizer & Scheduler
@@ -89,7 +90,7 @@ for epoch in range(EPOCH):
 
     avg_loss = 0
     cnt = 0
-    for images, labels in trainLoader:
+    for images, labels in trainLoader:     #need to figure this out ie Labels
         images = images.cuda()
         labels = labels.cuda()
 
